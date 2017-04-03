@@ -1,0 +1,25 @@
+{
+  "extends": "airbnb/base",
+  "parser": "babel-eslint",
+  "root": true,
+  "globals": {
+    "Version": true
+  },
+  "rules": {
+    "comma-dangle": [2, "never"],
+    "no-console": 0,
+    "func-names": 0,
+    "no-use-before-define": 0,
+    "prefer-object-spread/prefer-object-spread": 2,
+    "arrow-body-style": 0
+  },
+  "ecmaFeatures": {
+    "experimentalObjectRestSpread": true,
+    "spread": true,
+    "rest": true,
+    "restParams": true
+  },
+  "plugins": [
+    "prefer-object-spread"
+  ]
+}
