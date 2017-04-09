@@ -10,8 +10,8 @@
     "build": "rollup -c && rollup -c ./rollup.min.config.js && node-sass --output-style compressed themes/basic.scss ./build/reload-basic.css",
     "watch": "rollup -w -c && rollup -w -c ./rollup.min.config.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "James Ivings <james@releasepage.co>",
+  "license": "MIT",
   "devDependencies": {
     "babel-eslint": "6.1.2",
     "babel-plugin-external-helpers": "^6.22.0",
