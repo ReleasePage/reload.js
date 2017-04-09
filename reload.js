@@ -1,35 +1,50 @@
-import semver from 'semver';
-import _defaults from 'lodash.defaults';
+const semver = require('semver');
+const _defaults = require('lodash.defaults');
 
 const defaults = {
   autorefresh: -1,
-  content: 'A new version is available!'
+  content: 'A new version is available!',
+  versionjs: window.version
 };
 
-const Reload = function (options = {}) {
-  this.opts = options;
-  const version = this.opts.versionjs || window.version;
-
-  version.bind('load', () => {
-    console.log('loaded version');
-    this.update(version.tag());
-  });
-  // check for new version every 20 seconds
-  setInterval(() => {
-    version.load();
-  }, 5000);
-};
+const Reload = function () {};
 
 Reload.prototype = {
   options(opts) {
     this.opts = opts;
+    if (this.opts.versionjs) {
+      this.start();
+    }
+    return this;
   },
+
+  start() {
+    if (this._interval) return this;
+    // if this has been run before then load the
+    // version from localstorage so we can start
+    this.opts.version = localStorage.getItem('reload-prev-version');
+    this.opts.versionjs.bind('load', () => {
+      this.update(this.opts.versionjs.tag());
+    });
+    // check for new version every 20 seconds
+    this._interval = setInterval(() => {
+      this.opts.versionjs.load();
+    }, 5000);
+    return this;
+  },
+
+  stop() {
+    clearInterval(this._interval);
+    this._interval = null;
+    return this;
+  },
+
   update(version) {
-    console.log(`updating version to ${version}`);
     if (!this.opts.version) {
       this.opts.version = version;
       localStorage.setItem('reload-prev-version', version);
     } else if (version !== this.opts.version) {
+      // version has changed
       this.changed(version);
     }
     return this;
@@ -38,8 +53,8 @@ Reload.prototype = {
   changed(newVersion) {
     const oldVersion = this.opts.version;
     const releaseDiff = semver.diff(oldVersion, newVersion);
-    if (this.opts.release[releaseDiff]) {
-      this.render(this.opts.release[releaseDiff]);
+    if (this.opts[releaseDiff]) {
+      this.render(this.opts[releaseDiff]);
     }
     return this;
   },
@@ -102,13 +117,14 @@ Reload.prototype = {
       }
     }, 1000);
 
-
-    return this;
+    return this.stop();
   }
 };
 
+const __reload = new Reload();
+
 if (module) {
-  module.exports = Reload;
+  module.exports = __reload;
 } else if (window) {
-  window.reload = Reload;
+  window.reload = __reload;
 }
