@@ -7,8 +7,8 @@ const defaults = {
 };
 
 const Reload = function (options = {}) {
-  this.options = options;
-  const version = this.options.versionjs || window.version;
+  this.opts = options;
+  const version = this.opts.versionjs || window.version;
 
   version.bind('load', () => {
     console.log('loaded version');
@@ -21,22 +21,25 @@ const Reload = function (options = {}) {
 };
 
 Reload.prototype = {
+  options(opts) {
+    this.opts = opts;
+  },
   update(version) {
     console.log(`updating version to ${version}`);
-    if (!this.options.version) {
-      this.options.version = version;
+    if (!this.opts.version) {
+      this.opts.version = version;
       localStorage.setItem('reload-prev-version', version);
-    } else if (version !== this.options.version) {
+    } else if (version !== this.opts.version) {
       this.changed(version);
     }
     return this;
   },
 
   changed(newVersion) {
-    const oldVersion = this.options.version;
+    const oldVersion = this.opts.version;
     const releaseDiff = semver.diff(oldVersion, newVersion);
-    if (this.options.release[releaseDiff]) {
-      this.render(this.options.release[releaseDiff]);
+    if (this.opts.release[releaseDiff]) {
+      this.render(this.opts.release[releaseDiff]);
     }
     return this;
   },
