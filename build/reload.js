@@ -1,4 +1,4 @@
-(function () {
+var Version = (function () {
 'use strict';
 
 function createCommonjsModule(fn, module) {
@@ -1846,7 +1846,7 @@ var assignInWith = createAssigner(function(object, source, srcIndex, customizer)
  * _.defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
  * // => { 'a': 1, 'b': 2 }
  */
-var defaults$1 = baseRest(function(args) {
+var defaults = baseRest(function(args) {
   args.push(undefined, assignInDefaults);
   return apply(assignInWith, undefined, args);
 });
@@ -1878,116 +1878,145 @@ function keysIn(object) {
   return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
 }
 
-var index = defaults$1;
+var index = defaults;
 
-var defaults = {
-  autorefresh: -1,
-  content: 'A new version is available!'
-};
+var reload = createCommonjsModule(function (module) {
+  var defaults = {
+    autorefresh: -1,
+    content: 'A new version is available!',
+    versionjs: window.version
+  };
 
-var Reload = function Reload() {
-  var _this = this;
+  var Reload = function Reload() {};
 
-  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  Reload.prototype = {
+    options: function options(opts) {
+      this.opts = opts;
+      if (this.opts.versionjs) {
+        this.start();
+      }
+      return this;
+    },
+    start: function start() {
+      var _this = this;
 
-  this.options = options;
-  this.options.version = localStorage.getItem('reload-prev-version');
-
-  window.version.bind('load', function () {
-    console.log('loaded version');
-    _this.update(window.version.tag());
-  });
-  // check for new version every 20 seconds
-  setInterval(function () {
-    window.version.load();
-  }, 5000);
-};
-
-Reload.prototype = {
-  update: function update(version) {
-    console.log('updating version to ' + version);
-    if (!this.options.version) {
-      this.options.version = version;
-      localStorage.setItem('reload-prev-version', version);
-    } else if (version !== this.options.version) {
-      this.changed(version);
-    }
-    return this;
-  },
-  changed: function changed(newVersion) {
-    var oldVersion = this.options.version;
-    var releaseDiff = semver.diff(oldVersion, newVersion);
-    if (this.options.release[releaseDiff]) {
-      this.render(this.options.release[releaseDiff]);
-    }
-    return this;
-  },
-  render: function render() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    if (this.$el) return this;
-    var options = index(opts, defaults);
-    var $el = this.$el = document.createElement('div');
-    $el.className = 'reloadjs';
-    var $content = void 0;
-    var $refreshBtnTime = void 0;
-    var $refreshBtn = void 0;
-    if (options.html) {
-      $content = options.html;
-    } else {
-      // create the contents of the popover
-      $content = document.createElement('div');
-      $content.className = 'reloadjs__content';
-      var $text = document.createElement('span');
-      $text.textContent = options.content;
-      $content.appendChild($text);
-      $refreshBtn = document.createElement('a');
-      $refreshBtn.textContent = 'Refresh';
-      $refreshBtn.className = 'reloadjs__refresh-btn';
-      $refreshBtn.addEventListener('click', function () {
-        return window.location.reload();
+      if (this._interval) return this;
+      // if this has been run before then load the
+      // version from localstorage so we can start
+      this.opts.version = localStorage.getItem('reload-prev-version');
+      this.opts.versionjs.bind('load', function () {
+        _this.update(_this.opts.versionjs.tag({ repo: _this.opts.repo }));
       });
-      if (options.autorefresh > 0) {
-        if (options.showCountdown) {
-          $refreshBtnTime = document.createElement('span');
-          $refreshBtnTime.className = 'reloadjs__countdown';
-          $refreshBtnTime.textContent = '(' + options.autorefresh + ')';
-          $refreshBtn.appendChild($refreshBtnTime);
-        }
-        var $loader = document.createElement('span');
-        $loader.className = 'reloadjs__countdown-loader';
-        $loader.style.transition = 'width ' + options.autorefresh + 's linear';
-        $el.appendChild($loader);
+      // check for new version every 20 seconds
+      this._interval = setInterval(function () {
+        _this.opts.versionjs.load();
+      }, 5000);
+      return this;
+    },
+    stop: function stop() {
+      clearInterval(this._interval);
+      this._interval = null;
+      return this;
+    },
+    update: function update(version) {
+      if (!this.opts.version) {
+        this.opts.version = version;
+        localStorage.setItem('reload-prev-version', version);
+      } else if (version !== this.opts.version) {
+        // version has changed
+        this.changed(version);
       }
-      $content.appendChild($refreshBtn);
+      return this;
+    },
+    changed: function changed(newVersion) {
+      var oldVersion = this.opts.version;
+      var releaseDiff = semver.diff(oldVersion, newVersion);
+      this.opts.version = newVersion;
+      if (this.opts[releaseDiff]) {
+        this.render(this.opts[releaseDiff]);
+      }
+      return this;
+    },
+    render: function render() {
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (this.$el) return this;
+      var options = index(opts, defaults);
+      var $el = this.$el = document.createElement('div');
+      $el.className = 'reloadjs';
+      var $content = void 0;
+      var $refreshBtnTime = void 0;
+
+      if (options.html) {
+        $content = options.html;
+      } else {
+        // create the contents of the popover
+        $content = document.createElement('div');
+        $content.className = 'reloadjs__content';
+        var $text = document.createElement('span');
+        $text.textContent = typeof options.content === 'function' ? options.content(this.opts.version) : options.content;
+        $content.appendChild($text);
+        var $refreshBtn = document.createElement('a');
+        $refreshBtn.textContent = 'Refresh';
+        $refreshBtn.className = 'reloadjs__refresh-btn';
+        $refreshBtn.addEventListener('click', function () {
+          return window.location.reload();
+        });
+        if (options.autorefresh > 0) {
+          if (options.showCountdown) {
+            $refreshBtnTime = document.createElement('span');
+            $refreshBtnTime.className = 'reloadjs__countdown';
+            $refreshBtnTime.textContent = '(' + options.autorefresh + ')';
+            $refreshBtn.appendChild($refreshBtnTime);
+          }
+          var $loader = document.createElement('span');
+          $loader.className = 'reloadjs__countdown-loader';
+          $loader.style.transition = 'width ' + options.autorefresh + 's linear';
+          $el.appendChild($loader);
+        }
+        $content.appendChild($refreshBtn);
+      }
+      if (typeof $content === 'string') {
+        $el.innerHTML = $content;
+      } else {
+        $el.appendChild($content);
+      }
+
+      document.body.appendChild($el);
+      // wait a second for everything to be ready
+      setTimeout(function () {
+        $el.className += ' reloadjs--ready';
+        if (options.autorefresh === 0) {
+          // refresh immediately if set to 0
+          window.href.reload();
+        } else if (options.autorefresh > 0) {
+          // refresh after a period if set
+          var countdown = options.autorefresh;
+          if (options.showCountdown) {
+            setInterval(function () {
+              countdown = countdown - 1;
+              $refreshBtnTime.textContent = '(' + countdown + ')';
+            }, 1000);
+          }
+          setTimeout(function () {
+            window.location.reload();
+          }, options.autorefresh * 1000);
+        }
+      }, 1000);
+
+      return this.stop();
     }
-    $el.appendChild($content);
-    document.body.appendChild($el);
-    // wait a second for everything to be ready
-    setTimeout(function () {
-      $el.className += ' reloadjs--ready';
-      if (options.autorefresh === 0) {
-        // refresh immediately if set to 0
-        window.href.reload();
-      } else if (options.autorefresh > 0) {
-        // refresh after a period if set
-        var countdown = options.autorefresh;
-        if (options.showCountdown) {
-          setInterval(function () {
-            countdown = countdown - 1;
-            $refreshBtnTime.textContent = '(' + countdown + ')';
-          }, 1000);
-        }
-        setTimeout(function () {
-          window.location.reload();
-        }, options.autorefresh * 1000);
-      }
-    }, 1000);
+  };
 
-    return this;
+  var __reload = new Reload();
+
+  if (module) {
+    module.exports = __reload;
+  } else if (window) {
+    window.reload = __reload;
   }
-};
+});
 
-window.Reload = Reload;
+return reload;
 
 }());

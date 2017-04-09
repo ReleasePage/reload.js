@@ -7,7 +7,7 @@
 
 ## Enable API access
 
-First you need to grab your ReleasePage API key. Learn more about the ReleasePage API [here][1].
+First you need to grab your ReleasePage API key. Learn more about the ReleasePage API [here][7].
 
 ## Installation
 
@@ -89,11 +89,11 @@ reload.options({
 
 ### Project
 
-If you only want to show the popup for a version change of specific project(s) from the Release Page.
+If you only want to show the popup for a version change of specific project from the Release Page.
 
 ```js
 reload.options({
-  repositories: [ 'releasepage/api' ]
+  repo: 'releasepage/api'
 })
 ```
 
@@ -116,3 +116,4 @@ reload.options({
 [4]: https://github.com/ReleasePage/version.js
 [5]: https://github.com/npm/node-semver
 [6]: https://github.com/npm/node-semver#comparison
+[7]: https://help.releasepage.co/api

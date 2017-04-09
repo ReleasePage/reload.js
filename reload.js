@@ -24,7 +24,7 @@ Reload.prototype = {
     // version from localstorage so we can start
     this.opts.version = localStorage.getItem('reload-prev-version');
     this.opts.versionjs.bind('load', () => {
-      this.update(this.opts.versionjs.tag());
+      this.update(this.opts.versionjs.tag({ repo: this.opts.repo }));
     });
     // check for new version every 20 seconds
     this._interval = setInterval(() => {
@@ -53,6 +53,7 @@ Reload.prototype = {
   changed(newVersion) {
     const oldVersion = this.opts.version;
     const releaseDiff = semver.diff(oldVersion, newVersion);
+    this.opts.version = newVersion;
     if (this.opts[releaseDiff]) {
       this.render(this.opts[releaseDiff]);
     }
@@ -74,7 +75,9 @@ Reload.prototype = {
       $content = document.createElement('div');
       $content.className = 'reloadjs__content';
       const $text = document.createElement('span');
-      $text.textContent = options.content;
+      $text.textContent = (typeof options.content === 'function')
+        ? options.content(this.opts.version)
+        : options.content;
       $content.appendChild($text);
       const $refreshBtn = document.createElement('a');
       $refreshBtn.textContent = 'Refresh';
@@ -94,7 +97,12 @@ Reload.prototype = {
       }
       $content.appendChild($refreshBtn);
     }
-    $el.appendChild($content);
+    if (typeof $content === 'string') {
+      $el.innerHTML = $content;
+    } else {
+      $el.appendChild($content);
+    }
+
     document.body.appendChild($el);
     // wait a second for everything to be ready
     setTimeout(() => {
