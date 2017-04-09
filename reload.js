@@ -8,15 +8,15 @@ const defaults = {
 
 const Reload = function (options = {}) {
   this.options = options;
-  this.options.version = localStorage.getItem('reload-prev-version');
+  const version = this.options.versionjs || window.version;
 
-  window.version.bind('load', () => {
+  version.bind('load', () => {
     console.log('loaded version');
-    this.update(window.version.tag());
+    this.update(version.tag());
   });
   // check for new version every 20 seconds
   setInterval(() => {
-    window.version.load();
+    version.load();
   }, 5000);
 };
 
@@ -48,7 +48,7 @@ Reload.prototype = {
     $el.className = 'reloadjs';
     let $content;
     let $refreshBtnTime;
-    let $refreshBtn;
+
     if (options.html) {
       $content = options.html;
     } else {
@@ -58,7 +58,7 @@ Reload.prototype = {
       const $text = document.createElement('span');
       $text.textContent = options.content;
       $content.appendChild($text);
-      $refreshBtn = document.createElement('a');
+      const $refreshBtn = document.createElement('a');
       $refreshBtn.textContent = 'Refresh';
       $refreshBtn.className = 'reloadjs__refresh-btn';
       $refreshBtn.addEventListener('click', () => window.location.reload());

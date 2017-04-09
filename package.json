@@ -1,5 +1,5 @@
 {
-  "name": "version.js",
+  "name": "reload.js",
   "version": "1.0.0",
   "description": "",
   "main": "./build/reload.js",

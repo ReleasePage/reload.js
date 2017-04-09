@@ -8,7 +8,7 @@ export default {
   entry: './reload.js',
   dest: pkg.main,
   moduleName: 'Version',
-  format: 'iife',
+  format: 'cjs',
   plugins: [
     nodeResolve({
       main: true,
