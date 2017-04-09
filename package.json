@@ -1,9 +1,10 @@
 {
-  "name": "reload.js",
+  "name": "release-page-reload",
   "version": "1.0.0",
   "description": "",
   "main": "./build/reload.js",
   "browser": "./build/reload.min.js",
+  "module": "./reload.js",
   "scripts": {
     "test": "eslint ./reload.js",
     "build": "rollup -c && rollup -c ./rollup.min.config.js && node-sass --output-style compressed themes/basic.scss ./build/reload-basic.css",
