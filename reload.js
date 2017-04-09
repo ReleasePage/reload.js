@@ -104,4 +104,8 @@ Reload.prototype = {
   }
 };
 
-window.Reload = Reload;
+if (module) {
+  module.exports = Reload;
+} else if (window) {
+  window.reload = Reload;
+}
