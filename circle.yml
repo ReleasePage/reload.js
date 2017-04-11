@@ -16,7 +16,6 @@ dependencies:
 deployment:
   production:
     branch: master
-    owner: squarecat
     commands:
       # rebuild sass because yarn doesn't build it for the correct environment
       - npm rebuild node-sass
@@ -28,7 +27,6 @@ deployment:
       - bash ./node_modules/release-notes-assets/scripts/deploy_static.sh
   staging:
     branch: develop
-    owner: squarecat
     commands:
       # rebuild sass because yarn doesn't build it for the correct environment
       - npm rebuild node-sass
