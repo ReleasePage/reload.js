@@ -2,7 +2,7 @@ const semver = require('semver');
 const _defaults = require('lodash.defaults');
 
 const defaults = {
-  autorefresh: -1,
+  autorefresh: -1, // do not autorefresh
   content: 'A new version is available!'
 };
 
@@ -10,7 +10,8 @@ const globalDefaults = {
   versionjs: window.version,
   major: defaults,
   minor: defaults,
-  patch: defaults
+  patch: defaults,
+  interval: 10 * 1000 // 10 seconds by default
 };
 
 const Reload = function () {
@@ -19,7 +20,7 @@ const Reload = function () {
 
 Reload.prototype = {
   options(opts) {
-    this.opts = _defaults(globalDefaults, opts);
+    this.opts = _defaults(opts, globalDefaults);
     if (this.opts.versionjs) {
       this.start();
     }
@@ -33,12 +34,17 @@ Reload.prototype = {
     this.opts.version = localStorage.getItem('reload-prev-version');
     this.opts.versionjs.bind('load', () => {
       this.update(this.opts.versionjs.tag({ repo: this.opts.repo }));
+      this.poll();
     });
     // check for new version every 20 seconds
-    this._interval = setInterval(() => {
+    this.poll();
+    return this;
+  },
+
+  poll() {
+    this._interval = setTimeout(() => {
       this.opts.versionjs.load();
     }, 5000);
-    return this;
   },
 
   stop() {
