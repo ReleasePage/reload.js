@@ -1883,15 +1883,23 @@ var index = defaults;
 var reload = createCommonjsModule(function (module) {
   var defaults = {
     autorefresh: -1,
-    content: 'A new version is available!',
-    versionjs: window.version
+    content: 'A new version is available!'
   };
 
-  var Reload = function Reload() {};
+  var globalDefaults = {
+    versionjs: window.version,
+    major: defaults,
+    minor: defaults,
+    patch: defaults
+  };
+
+  var Reload = function Reload() {
+    this.opts = globalDefaults;
+  };
 
   Reload.prototype = {
     options: function options(opts) {
-      this.opts = opts;
+      this.opts = index(globalDefaults, opts);
       if (this.opts.versionjs) {
         this.start();
       }
@@ -2012,7 +2020,8 @@ var reload = createCommonjsModule(function (module) {
 
   if (module) {
     module.exports = __reload;
-  } else if (window) {
+  }
+  if (typeof window !== 'undefined') {
     window.reload = __reload;
   }
 });

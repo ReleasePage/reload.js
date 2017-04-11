@@ -3,15 +3,23 @@ const _defaults = require('lodash.defaults');
 
 const defaults = {
   autorefresh: -1,
-  content: 'A new version is available!',
-  versionjs: window.version
+  content: 'A new version is available!'
 };
 
-const Reload = function () {};
+const globalDefaults = {
+  versionjs: window.version,
+  major: defaults,
+  minor: defaults,
+  patch: defaults
+};
+
+const Reload = function () {
+  this.opts = globalDefaults;
+};
 
 Reload.prototype = {
   options(opts) {
-    this.opts = opts;
+    this.opts = _defaults(globalDefaults, opts);
     if (this.opts.versionjs) {
       this.start();
     }
@@ -133,6 +141,7 @@ const __reload = new Reload();
 
 if (module) {
   module.exports = __reload;
-} else if (window) {
+}
+if (typeof window !== 'undefined') {
   window.reload = __reload;
 }
