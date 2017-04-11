@@ -35,4 +35,4 @@ deployment:
       # prune modules that are not needed in production
       - yarn install --production --ignore-scripts --prefer-offline
       # deploy
-      - bash ./node_modules/release-notes-assets/scripts/deploy_staging_static.sh
+      - bash ./node_modules/release-notes-assets/scripts/deploy_static_staging.sh
