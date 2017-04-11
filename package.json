@@ -28,7 +28,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-watch": "^3.2.2",
-    "release-notes-assets": "ssh://github.com/squarecat/release-notes-assets.git#js-files"
+    "release-notes-assets": "ssh://github.com/squarecat/release-notes-assets.git#v1.4.4"
   },
   "dependencies": {
     "microevent": "^1.0.0",
