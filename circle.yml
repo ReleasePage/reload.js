@@ -1,0 +1,42 @@
+machine:
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+  node:
+    version: 6.9.5
+  services:
+    - redis
+
+dependencies:
+  pre:
+    - echo "Host github.com" >> ~/.ssh/config
+    - echo "    User git" >> ~/.ssh/config
+  override:
+    - yarn
+  cache_directories:
+    - ~/.cache/yarn
+
+deployment:
+  production:
+    branch: master
+    owner: squarecat
+    commands:
+      # rebuild sass because yarn doesn't build it for the correct environment
+      - npm rebuild node-sass
+      # compile the build and deploy it
+      - NODE_ENV=production npm run build
+      # prune modules that are not needed in production
+      - yarn install --production --ignore-scripts --prefer-offline
+      # deploy
+      - bash ./node_modules/release-notes-assets/scripts/deploy_static.sh
+  staging:
+    branch: develop
+    owner: squarecat
+    commands:
+      # rebuild sass because yarn doesn't build it for the correct environment
+      - npm rebuild node-sass
+      # compile the build and deploy it
+      - NODE_ENV=production npm run build
+      # prune modules that are not needed in production
+      - yarn install --production --ignore-scripts --prefer-offline
+      # deploy
+      - bash ./node_modules/release-notes-assets/scripts/deploy_staging_static.sh

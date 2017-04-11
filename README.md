@@ -1,9 +1,26 @@
 # reload.js
 
-`reload.js` will show a popup or refresh your app when there is a new version available ⚡️
+<div>
+
+  <a href="https://www.bithound.io/github/ReleasePage/reload.js">
+    <img src="https://www.bithound.io/github/ReleasePage/reload.js/badges/score.svg" alt="bitHound Overall Score">
+  </a>
+
+  <a href="https://circleci.com/gh/ReleasePage/reload.js">
+    <img src="https://circleci.com/gh/ReleasePage/reload.js.svg?style=shield&circle-token=e81abb767be091a83e8675d74a2171d557d45e5d" alt="Build Status"/>
+  </a>
+
+  <a href="http://reloadjs.releasepage.co">
+    <img src="http://staging.api.releasepage.co/v1/pages/26a680a0-0f6d-41b2-854e-4ea2b134ad7e/badge.svg?apiKey=1234" alt="Latest Release">
+  </a>
+
+  <br/>
+  <br/>
+</div>
+
+`reload.js` will show a popup or refresh your app when there is a new version released ⚡️
 
 - [Basic Demo][1]
-- [Grouped Release Demo][2]
 
 ## Enable API access
 
@@ -94,7 +111,7 @@ If you only want to show the popup for a version change of specific project from
 ```js
 reload.options({
   repo: 'releasepage/api'
-})
+});
 ```
 
 ### Custom html
@@ -106,12 +123,11 @@ const $contents = document.createElement('<div>');
 $contents.innerText = 'New stuff!';
 
 reload.options({
-  content: $contents
-})
+  html: $contents
+});
 ```
 
-[1]:
-[2]:
+[1]: http://codepen.io/Jivings/pen/yMmLde
 [3]: https://releasepage.co
 [4]: https://github.com/ReleasePage/version.js
 [5]: https://github.com/npm/node-semver

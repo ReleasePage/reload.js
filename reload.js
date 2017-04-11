@@ -1,16 +1,16 @@
 const semver = require('semver');
 const _defaults = require('lodash.defaults');
 
-const defaults = {
+const diffDefaults = {
   autorefresh: -1, // do not autorefresh
   content: 'A new version is available!'
 };
 
 const globalDefaults = {
   versionjs: window.version,
-  major: defaults,
-  minor: defaults,
-  patch: defaults,
+  major: {},
+  minor: {},
+  patch: {},
   interval: 10 * 1000 // 10 seconds by default
 };
 
@@ -20,7 +20,16 @@ const Reload = function () {
 
 Reload.prototype = {
   options(opts) {
+    this.diffDefaults = diffDefaults;
     this.opts = _defaults(opts, globalDefaults);
+    if (this.opts.content) {
+      this.diffDefaults.content = this.opts.content;
+    } else if (this.opts.html) {
+      this.diffDefaults.html = this.opts.html;
+    }
+    if (this.opts.autorefresh) {
+      this.diffDefaults.autorefresh = this.opts.autorefresh;
+    }
     if (this.opts.versionjs) {
       this.start();
     }
@@ -76,7 +85,7 @@ Reload.prototype = {
 
   render(opts = {}) {
     if (this.$el) return this;
-    const options = _defaults(opts, defaults);
+    const options = _defaults(opts, this.diffDefaults);
     const $el = this.$el = document.createElement('div');
     $el.className = 'reloadjs';
     let $content;
