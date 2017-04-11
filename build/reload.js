@@ -1882,7 +1882,7 @@ var index = defaults;
 
 var reload = createCommonjsModule(function (module) {
   var defaults = {
-    autorefresh: -1,
+    autorefresh: -1, // do not autorefresh
     content: 'A new version is available!'
   };
 
@@ -1890,7 +1890,8 @@ var reload = createCommonjsModule(function (module) {
     versionjs: window.version,
     major: defaults,
     minor: defaults,
-    patch: defaults
+    patch: defaults,
+    interval: 10 * 1000 // 10 seconds by default
   };
 
   var Reload = function Reload() {
@@ -1899,7 +1900,7 @@ var reload = createCommonjsModule(function (module) {
 
   Reload.prototype = {
     options: function options(opts) {
-      this.opts = index(globalDefaults, opts);
+      this.opts = index(opts, globalDefaults);
       if (this.opts.versionjs) {
         this.start();
       }
@@ -1914,12 +1915,18 @@ var reload = createCommonjsModule(function (module) {
       this.opts.version = localStorage.getItem('reload-prev-version');
       this.opts.versionjs.bind('load', function () {
         _this.update(_this.opts.versionjs.tag({ repo: _this.opts.repo }));
+        _this.poll();
       });
       // check for new version every 20 seconds
-      this._interval = setInterval(function () {
-        _this.opts.versionjs.load();
-      }, 5000);
+      this.poll();
       return this;
+    },
+    poll: function poll() {
+      var _this2 = this;
+
+      this._interval = setTimeout(function () {
+        _this2.opts.versionjs.load();
+      }, 5000);
     },
     stop: function stop() {
       clearInterval(this._interval);
