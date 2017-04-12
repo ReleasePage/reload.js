@@ -1,7 +1,6 @@
 # reload.js
 
 <div>
-
   <a href="https://www.bithound.io/github/ReleasePage/reload.js">
     <img src="https://www.bithound.io/github/ReleasePage/reload.js/badges/score.svg" alt="bitHound Overall Score">
   </a>
