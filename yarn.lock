@@ -1990,9 +1990,9 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-"release-notes-assets@ssh://github.com/squarecat/release-notes-assets.git#js-files":
-  version "1.4.2"
-  resolved "ssh://github.com/squarecat/release-notes-assets.git#4afe9c10ff23e839d45111b35367888cd38e5763"
+"release-notes-assets@ssh://github.com/squarecat/release-notes-assets.git#v1.4.4":
+  version "1.4.4"
+  resolved "ssh://github.com/squarecat/release-notes-assets.git#a23fcdd4788baf81e9e8b5370547ed8aafdc0715"
 
 remove-trailing-separator@^1.0.1:
   version "1.0.1"
