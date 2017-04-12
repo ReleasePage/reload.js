@@ -38,9 +38,6 @@ Reload.prototype = {
 
   start() {
     if (this._interval) return this;
-    // if this has been run before then load the
-    // version from localstorage so we can start
-    this.opts.version = localStorage.getItem('reload-prev-version');
     this.opts.versionjs.bind('load', () => {
       this.update(this.opts.versionjs.tag({ repo: this.opts.repo }));
       this.poll();
@@ -65,7 +62,6 @@ Reload.prototype = {
   update(version) {
     if (!this.opts.version) {
       this.opts.version = version;
-      localStorage.setItem('reload-prev-version', version);
     } else if (version !== this.opts.version) {
       // version has changed
       this.changed(version);

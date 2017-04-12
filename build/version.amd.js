@@ -1918,9 +1918,6 @@ var reload = createCommonjsModule(function (module) {
       var _this = this;
 
       if (this._interval) return this;
-      // if this has been run before then load the
-      // version from localstorage so we can start
-      this.opts.version = localStorage.getItem('reload-prev-version');
       this.opts.versionjs.bind('load', function () {
         _this.update(_this.opts.versionjs.tag({ repo: _this.opts.repo }));
         _this.poll();
@@ -1944,7 +1941,6 @@ var reload = createCommonjsModule(function (module) {
     update: function update(version) {
       if (!this.opts.version) {
         this.opts.version = version;
-        localStorage.setItem('reload-prev-version', version);
       } else if (version !== this.opts.version) {
         // version has changed
         this.changed(version);
