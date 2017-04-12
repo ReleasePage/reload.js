@@ -10,7 +10,7 @@
   </a>
 
   <a href="http://reloadjs.releasepage.co">
-    <img src="http://staging.api.releasepage.co/v1/pages/26a680a0-0f6d-41b2-854e-4ea2b134ad7e/badge.svg?apiKey=1234" alt="Latest Release">
+    <img src="http://api.releasepage.co/v1/pages/7fa436a3-cdc2-4047-add0-b5a216a75bd0/badge.svg?apiKey=live.x7izhEzWeaeKRepW" alt="Latest Release">
   </a>
 
   <br/>
