@@ -1,5 +1,4 @@
-var Version = (function () {
-'use strict';
+define(function () { 'use strict';
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -2044,4 +2043,4 @@ var reload = createCommonjsModule(function (module) {
 
 return reload;
 
-}());
+});

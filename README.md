@@ -1,7 +1,6 @@
 # reload.js
 
 <div>
-
   <a href="https://www.bithound.io/github/ReleasePage/reload.js">
     <img src="https://www.bithound.io/github/ReleasePage/reload.js/badges/score.svg" alt="bitHound Overall Score">
   </a>
@@ -11,7 +10,7 @@
   </a>
 
   <a href="http://reloadjs.releasepage.co">
-    <img src="http://staging.api.releasepage.co/v1/pages/26a680a0-0f6d-41b2-854e-4ea2b134ad7e/badge.svg?apiKey=1234" alt="Latest Release">
+    <img src="http://api.releasepage.co/v1/pages/7fa436a3-cdc2-4047-add0-b5a216a75bd0/badge.svg?apiKey=live.x7izhEzWeaeKRepW" alt="Latest Release">
   </a>
 
   <br/>
@@ -125,6 +124,32 @@ $contents.innerText = 'New stuff!';
 reload.options({
   html: $contents
 });
+```
+
+## AMD
+
+We also provide an AMD moduile for use with npm and webpack et al.
+
+```npm install release-page-version release-page-reload --save-dev```
+
+```js
+const version = require('release-page-version');
+const reload = require('release-page-reload');
+
+// set up `version.js`
+version.options({
+  pageId: RP_PAGE_ID,
+  apiKey: RP_API_KEY
+});
+
+reload.options({
+  // tell reload to use this `version.js` instead of the one on `window`
+  versionjs: version,
+  major: {
+    content: 'A new version is available!'
+  }
+});
+
 ```
 
 [1]: http://codepen.io/Jivings/pen/yMmLde

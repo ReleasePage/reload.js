@@ -1,14 +1,14 @@
 {
   "name": "release-page-reload",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "",
   "main": "./build/reload.js",
-  "browser": "./build/reload.min.js",
-  "module": "./reload.js",
+  "browser": "./build/version.amd.js",
+  "module": "./build/version.amd.js",
   "scripts": {
     "test": "eslint ./reload.js",
-    "build": "rollup -c && rollup -c ./rollup.min.config.js && node-sass --output-style compressed themes/basic.scss ./build/reload-basic.css",
-    "watch": "rollup -w -c && rollup -w -c ./rollup.min.config.js"
+    "build": "rollup -c && rollup -c ./rollup.min.config.js && rollup -c ./rollup.amd.config.js && node-sass --output-style compressed themes/basic.scss ./build/reload-basic.css",
+    "watch": "rollup -w -c && rollup -w -c ./rollup.min.config.js && rollup -w -c ./rollup.amd.config.js"
   },
   "author": "James Ivings <james@releasepage.co>",
   "license": "MIT",
