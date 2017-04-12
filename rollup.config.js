@@ -7,7 +7,7 @@ const pkg = require('./package.json');
 export default {
   entry: './reload.js',
   dest: pkg.main,
-  moduleName: 'Version',
+  moduleName: 'Reload',
   format: 'iife',
   plugins: [
     nodeResolve({
