@@ -126,6 +126,32 @@ reload.options({
 });
 ```
 
+## AMD
+
+We also provide an AMD moduile for use with npm and webpack et al.
+
+```npm install release-page-version release-page-reload --save-dev```
+
+```js
+const version = require('release-page-version');
+const reload = require('release-page-reload');
+
+// set up `version.js`
+version.options({
+  pageId: RP_PAGE_ID,
+  apiKey: RP_API_KEY
+});
+
+reload.options({
+  // tell reload to use this `version.js` instead of the one on `window`
+  versionjs: version,
+  major: {
+    content: 'A new version is available!'
+  }
+});
+
+```
+
 [1]: http://codepen.io/Jivings/pen/yMmLde
 [3]: https://releasepage.co
 [4]: https://github.com/ReleasePage/version.js
