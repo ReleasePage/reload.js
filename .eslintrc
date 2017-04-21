@@ -2,16 +2,21 @@
   "extends": "airbnb/base",
   "parser": "babel-eslint",
   "root": true,
+  "env": {
+    "browser": true
+  },
   "globals": {
     "Version": true
   },
   "rules": {
+    "import/extensions": ['off', 'never'],
     "comma-dangle": [2, "never"],
     "no-console": 0,
     "func-names": 0,
     "no-use-before-define": 0,
     "prefer-object-spread/prefer-object-spread": 2,
-    "arrow-body-style": 0
+    "arrow-body-style": 0,
+    "import/no-extraneous-dependencies": 0
   },
   "ecmaFeatures": {
     "experimentalObjectRestSpread": true,

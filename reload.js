@@ -1,5 +1,5 @@
 const semver = require('semver');
-const _defaults = require('lodash.defaults');
+const defaults = require('lodash.defaults');
 
 const diffDefaults = {
   autorefresh: -1, // do not autorefresh
@@ -21,7 +21,7 @@ const Reload = function () {
 Reload.prototype = {
   options(opts) {
     this.diffDefaults = diffDefaults;
-    this.opts = _defaults(opts, globalDefaults);
+    this.opts = defaults(opts, globalDefaults);
     if (this.opts.content) {
       this.diffDefaults.content = this.opts.content;
     } else if (this.opts.html) {
@@ -37,7 +37,7 @@ Reload.prototype = {
   },
 
   start() {
-    if (this._interval) return this;
+    if (this.interval) return this;
     this.opts.versionjs.bind('load', () => {
       this.update(this.opts.versionjs.tag({ repo: this.opts.repo }));
       this.poll();
@@ -48,14 +48,14 @@ Reload.prototype = {
   },
 
   poll() {
-    this._interval = setTimeout(() => {
+    this.interval = setTimeout(() => {
       this.opts.versionjs.load();
-    }, 5000);
+    }, this.opts.interval);
   },
 
   stop() {
-    clearInterval(this._interval);
-    this._interval = null;
+    clearInterval(this.interval);
+    this.interval = null;
     return this;
   },
 
@@ -81,8 +81,9 @@ Reload.prototype = {
 
   render(opts = {}) {
     if (this.$el) return this;
-    const options = _defaults(opts, this.diffDefaults);
-    const $el = this.$el = document.createElement('div');
+    const options = defaults(opts, this.diffDefaults);
+    const $el = document.createElement('div');
+    this.$el = $el;
     $el.className = 'reloadjs';
     let $content;
     let $refreshBtnTime;
@@ -134,7 +135,7 @@ Reload.prototype = {
         let countdown = options.autorefresh;
         if (options.showCountdown) {
           setInterval(() => {
-            countdown = countdown - 1;
+            countdown -= 1;
             $refreshBtnTime.textContent = `(${countdown})`;
           }, 1000);
         }
@@ -148,11 +149,11 @@ Reload.prototype = {
   }
 };
 
-const __reload = new Reload();
+const reload = new Reload();
 
 if (module) {
-  module.exports = __reload;
+  module.exports = reload;
 }
 if (typeof window !== 'undefined') {
-  window.reload = __reload;
+  window.reload = reload;
 }

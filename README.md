@@ -17,25 +17,45 @@
   <br/>
 </div>
 
-`reload.js` will show a popup or refresh your app when there is a new version released ⚡️
+`reload.js` will show a popup or refresh your app when there is a new GitHub version released ⚡️
 
-- [Basic Demo][1]
+---
 
-## Enable API access
+[Basic Demo][1]
 
-First you need to grab your ReleasePage API key. Learn more about the ReleasePage API [here][7].
+<img width="624" alt="screen shot 2017-04-21 at 15 13 06" src="https://cloud.githubusercontent.com/assets/1462828/25269006/18d9f37e-26a5-11e7-87b7-ce79d0b50892.png">
+
+---
+
+- [Installation](#installation)
+- [Customisation](#customisation)
+  - [Messages](#messages)
+  - [Versions](#versions)
+  - [Force Refresh](#force-refresh)
+  - [Custom HTML](#custom-html)
+- [ReleasePage Integration](#releasepage-integration)
+  - [Specific project](#specific-project)
+- [AMD](#amd)
 
 ## Installation
 
 `reload.js` uses the [`version.js`][4] library to fetch your release versions, so you must include both libraries.
 
+Provide the GitHub repository that you want to use as a `data-repo` attribute in the script tag. When a new version of the repository is released, `reload.js` will show a customisable popup and optionally refresh the page.
+
 
 ```html
-<script src="//cdn.releasepage.co/js/version.js" data-api-key="<API_KEY>" data-page-id="<PAGE_ID>" ></script>
+<script src="//cdn.releasepage.co/js/version.js" data-repo="releasepage/version"></script>
 <script src="//cdn.releasepage.co/js/reload.js"></script>
 ```
 
-If you want to use our default styles then also include `reload-basic.css`, this is what we use on [ReleasePage][3].
+Or we also provide a combined library on our CDN for convenience.
+
+```html
+<script src="//cdn.releasepage.co/js/reload.combined.js" data-repo="releasepage/version"></script>
+```
+
+If you want to use our default styles then also include `reload-basic.css`, this is what we use on [ReleasePage][3] and on the [basic demo][1].
 
 ```html
 <link rel="stylesheet" type="text/css" href="//cdn.releasepage.co/css/reload-basic.css">
@@ -90,7 +110,7 @@ reload.options({
 });
 ```
 
-### Force refresh
+### Force Refresh
 
 Sometimes you want to force the user to refresh if there are big breaking changes 💥 (passing `0` will show the popup then force refresh immediately).
 
@@ -100,16 +120,6 @@ reload.options({
     content: 'A new version is available!',
     autorefresh: 30 // seconds
   }
-});
-```
-
-### Project
-
-If you only want to show the popup for a version change of specific project from the Release Page.
-
-```js
-reload.options({
-  repo: 'releasepage/api'
 });
 ```
 
@@ -126,9 +136,41 @@ reload.options({
 });
 ```
 
+## ReleasePage Integration
+
+`reload.js` can also be used as a ReleasePage integration allowing you to take advantage of extra cool features:
+
+- Private repos
+- Group releases from different repos into one combined version
+- A more generous rate limit
+
+### Enable API access
+
+If you don't have an account yet, you can create one [on our homepage][3]. After creating your first beautiful Release Page, you need to grab your API key.
+
+Learn more about ReleasePage API keys [here][7].
+
+### Installation
+
+To use `reload.js` with your Release Page, provide the page ID and you API Key instead of a GitHub repo
+
+```html
+<script src="//cdn.releasepage.co/js/reload.combined.js" data-api-key="<API_KEY>" data-page-id="<PAGE_ID>"></script>
+```
+
+### Specific Project
+
+If you only want to show the popup for a version change of a specific project from the Release Page.
+
+```js
+reload.options({
+  repo: 'releasepage/api'
+});
+```
+
 ## AMD
 
-We also provide an AMD moduile for use with npm and webpack et al.
+We also provide an AMD module for use with npm and webpack et al.
 
 ```npm install release-page-version release-page-reload --save-dev```
 
@@ -136,7 +178,14 @@ We also provide an AMD moduile for use with npm and webpack et al.
 const version = require('release-page-version');
 const reload = require('release-page-reload');
 
-// set up `version.js`
+// set up `version.js` using the GitHub API
+version.options({
+  github: {
+    repo: REPO_NAME
+  }
+});
+
+// ...or set up `version.js` using the ReleasePage API
 version.options({
   pageId: RP_PAGE_ID,
   apiKey: RP_API_KEY
