@@ -17,6 +17,7 @@ deployment:
   production:
     branch: master
     commands:
+      - npm rebuild node-sass
       # compile the build and deploy it
       - NODE_ENV=production npm run build
       # deploy
@@ -24,6 +25,7 @@ deployment:
   staging:
     branch: develop
     commands:
+      - npm rebuild node-sass
       # compile the build and deploy it
       - NODE_ENV=production npm run build
       # deploy

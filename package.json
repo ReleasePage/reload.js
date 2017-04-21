@@ -15,7 +15,7 @@
   "scripts": {
     "clean": "rm -r ./build/*",
     "test": "eslint ./reload.js",
-    "build": "rollup -c && npm run build:min && npm run build:amd && npm run build:combined",
+    "build": "rollup -c && npm run build:min && npm run build:amd && npm run build:combined && npm run build:sass",
     "watch": "rollup -c -w && npm run build:min:watch && npm run build:amd:watch",
     "build:sass": "node-sass --output-style compressed themes/basic.scss ./build/reload-basic.css",
     "build:min": "rollup -c ./rollup.min.config.js",
