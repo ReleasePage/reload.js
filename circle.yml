@@ -21,8 +21,6 @@ deployment:
       - npm rebuild node-sass
       # compile the build and deploy it
       - NODE_ENV=production npm run build
-      # prune modules that are not needed in production
-      - yarn install --production --ignore-scripts --prefer-offline
       # deploy
       - bash ./node_modules/release-notes-assets/scripts/deploy_static.sh
   staging:
@@ -32,7 +30,5 @@ deployment:
       - npm rebuild node-sass
       # compile the build and deploy it
       - NODE_ENV=production npm run build
-      # prune modules that are not needed in production
-      - yarn install --production --ignore-scripts --prefer-offline
       # deploy
       - bash ./node_modules/release-notes-assets/scripts/deploy_static_staging.sh
