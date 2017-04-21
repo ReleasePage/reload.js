@@ -17,18 +17,14 @@ deployment:
   production:
     branch: master
     commands:
-      # rebuild sass because yarn doesn't build it for the correct environment
-      - npm rebuild node-sass
       # compile the build and deploy it
       - NODE_ENV=production npm run build
       # deploy
-      - bash ./node_modules/release-notes-assets/scripts/deploy_static.sh
+      - bash "$DEPLOY_MASTER_SCRIPT"
   staging:
     branch: develop
     commands:
-      # rebuild sass because yarn doesn't build it for the correct environment
-      - npm rebuild node-sass
       # compile the build and deploy it
       - NODE_ENV=production npm run build
       # deploy
-      - bash ./node_modules/release-notes-assets/scripts/deploy_static_staging.sh
+      - bash "$DEPLOY_STAGING_SCRIPT"
