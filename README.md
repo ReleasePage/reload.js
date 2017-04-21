@@ -17,7 +17,7 @@
   <br/>
 </div>
 
-`reload.js` will show a popup or refresh your app when there is a new version released ⚡️
+`reload.js` will show a popup or refresh your app when there is a new GitHub version released ⚡️
 
 ---
 
@@ -41,6 +41,8 @@
 
 `reload.js` uses the [`version.js`][4] library to fetch your release versions, so you must include both libraries.
 
+Provide the GitHub repository that you want to use as a `data-repo` attribute in the script tag. When a new version of the repository is released, `reload.js` will show a customisable popup and optionally refresh the page.
+
 
 ```html
 <script src="//cdn.releasepage.co/js/version.js" data-repo="releasepage/version"></script>
@@ -53,7 +55,7 @@ Or we also provide a combined library on our CDN for convenience.
 <script src="//cdn.releasepage.co/js/reload.combined.js" data-repo="releasepage/version"></script>
 ```
 
-If you want to use our default styles then also include `reload-basic.css`, this is what we use on [ReleasePage][3].
+If you want to use our default styles then also include `reload-basic.css`, this is what we use on [ReleasePage][3] and on the [basic demo][1].
 
 ```html
 <link rel="stylesheet" type="text/css" href="//cdn.releasepage.co/css/reload-basic.css">
