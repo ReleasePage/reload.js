@@ -1,6 +1,6 @@
 {
   "name": "release-page-reload",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Show a popup or refresh your app when there is a new GitHub version released ⚡️",
   "keywords": ["version", "reload", "github", "releases", "release", "github release", "repo version"],
   "bugs": {

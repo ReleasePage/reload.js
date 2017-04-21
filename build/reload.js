@@ -1891,7 +1891,7 @@ var reload_1 = createCommonjsModule(function (module) {
     major: {},
     minor: {},
     patch: {},
-    interval: 10 * 1000 // 10 seconds by default
+    interval: 60 * 1000 // 60 seconds by default
   };
 
   var Reload = function Reload() {
