@@ -1931,7 +1931,7 @@ var reload_1 = createCommonjsModule(function (module) {
 
       this.interval = setTimeout(function () {
         _this2.opts.versionjs.load();
-      }, 5000);
+      }, this.opts.interval);
     },
     stop: function stop() {
       clearInterval(this.interval);
