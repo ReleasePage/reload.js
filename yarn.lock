@@ -2212,9 +2212,9 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-release-page-version@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/release-page-version/-/release-page-version-1.1.1.tgz#0b996e37f4605a8147ce527c22a0aa24d84089b8"
+release-page-version@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/release-page-version/-/release-page-version-1.1.2.tgz#64ba935f00993c743ce93991d075a98a60d6eeb0"
 
 remove-trailing-separator@^1.0.1:
   version "1.0.1"
@@ -2367,9 +2367,9 @@ rollup-watch@^3.2.2:
   dependencies:
     require-relative "0.8.7"
 
-rollup@0.41.4:
-  version "0.41.4"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.41.4.tgz#a970580176329f9ead86854d7fd4c46de752aef8"
+rollup@^0.41.6:
+  version "0.41.6"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.41.6.tgz#e0d05497877a398c104d816d2733a718a7a94e2a"
   dependencies:
     source-map-support "^0.4.0"
 
