@@ -50,7 +50,7 @@ Reload.prototype = {
   poll() {
     this.interval = setTimeout(() => {
       this.opts.versionjs.load();
-    }, 5000);
+    }, this.opts.interval);
   },
 
   stop() {
