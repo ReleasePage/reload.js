@@ -1880,7 +1880,7 @@ function keysIn(object) {
 
 var index = defaults;
 
-var reload = createCommonjsModule(function (module) {
+var reload_1 = createCommonjsModule(function (module) {
   var diffDefaults = {
     autorefresh: -1, // do not autorefresh
     content: 'A new version is available!'
@@ -1918,7 +1918,7 @@ var reload = createCommonjsModule(function (module) {
     start: function start() {
       var _this = this;
 
-      if (this._interval) return this;
+      if (this.interval) return this;
       this.opts.versionjs.bind('load', function () {
         _this.update(_this.opts.versionjs.tag({ repo: _this.opts.repo }));
         _this.poll();
@@ -1930,13 +1930,13 @@ var reload = createCommonjsModule(function (module) {
     poll: function poll() {
       var _this2 = this;
 
-      this._interval = setTimeout(function () {
+      this.interval = setTimeout(function () {
         _this2.opts.versionjs.load();
       }, 5000);
     },
     stop: function stop() {
-      clearInterval(this._interval);
-      this._interval = null;
+      clearInterval(this.interval);
+      this.interval = null;
       return this;
     },
     update: function update(version) {
@@ -1962,7 +1962,8 @@ var reload = createCommonjsModule(function (module) {
 
       if (this.$el) return this;
       var options = index(opts, this.diffDefaults);
-      var $el = this.$el = document.createElement('div');
+      var $el = document.createElement('div');
+      this.$el = $el;
       $el.className = 'reloadjs';
       var $content = void 0;
       var $refreshBtnTime = void 0;
@@ -2014,7 +2015,7 @@ var reload = createCommonjsModule(function (module) {
           var countdown = options.autorefresh;
           if (options.showCountdown) {
             setInterval(function () {
-              countdown = countdown - 1;
+              countdown -= 1;
               $refreshBtnTime.textContent = '(' + countdown + ')';
             }, 1000);
           }
@@ -2028,16 +2029,16 @@ var reload = createCommonjsModule(function (module) {
     }
   };
 
-  var __reload = new Reload();
+  var reload = new Reload();
 
   if (module) {
-    module.exports = __reload;
+    module.exports = reload;
   }
   if (typeof window !== 'undefined') {
-    window.reload = __reload;
+    window.reload = reload;
   }
 });
 
-return reload;
+return reload_1;
 
 }());

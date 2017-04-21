@@ -1,20 +1,28 @@
 {
   "name": "release-page-reload",
   "version": "1.1.2",
-  "description": "Display the latest version number of your GitHub repo! ✨ ",
-  "keywords": ["version", "github", "releases", "release", "github release", "repo version"],
+  "description": "Show a popup or refresh your app when there is a new GitHub version released ⚡️",
+  "keywords": ["version", "reload", "github", "releases", "release", "github release", "repo version"],
   "bugs": {
     "url": "https://github.com/releasepage/reload.js/issues",
     "email": "james@releasepage.co"
   },
   "repository": "releasepage/reload.js",
   "main": "./build/reload.js",
-  "browser": "./build/version.amd.js",
-  "module": "./build/version.amd.js",
+  "minified": "./build/reload.min.js",
+  "browser": "./build/reload.amd.js",
+  "module": "./build/reload.amd.js",
   "scripts": {
+    "clean": "rm -r ./build/*",
     "test": "eslint ./reload.js",
-    "build": "rollup -c && rollup -c ./rollup.min.config.js && rollup -c ./rollup.amd.config.js && node-sass --output-style compressed themes/basic.scss ./build/reload-basic.css",
-    "watch": "rollup -w -c && rollup -w -c ./rollup.min.config.js && rollup -w -c ./rollup.amd.config.js"
+    "build": "rollup -c && npm run build:min && npm run build:amd && npm run build:combined",
+    "watch": "rollup -c -w && npm run build:min:watch && npm run build:amd:watch",
+    "build:sass": "node-sass --output-style compressed themes/basic.scss ./build/reload-basic.css",
+    "build:min": "rollup -c ./rollup.min.config.js",
+    "build:amd": "rollup -c ./rollup.amd.config.js",
+    "build:combined": "cat ./node_modules/release-page-version/build/version.min.js ./build/reload.min.js > ./build/reload.combined.js",
+    "build:min:watch": "rollup -w -c ./rollup.min.config.js",
+    "build:amd:watch": "rollup -w -c ./rollup.amd.config.js"
   },
   "author": "James Ivings <james@releasepage.co>",
   "license": "MIT",
@@ -38,7 +46,8 @@
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-watch": "^3.2.2",
     "microevent": "^1.0.0",
-    "semver": "^5.3.0"
+    "semver": "^5.3.0",
+    "release-page-version": "*"
   },
   "dependencies": {}
 }
