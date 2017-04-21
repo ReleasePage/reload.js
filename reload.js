@@ -11,7 +11,7 @@ const globalDefaults = {
   major: {},
   minor: {},
   patch: {},
-  interval: 10 * 1000 // 10 seconds by default
+  interval: 60 * 1000 // 60 seconds by default
 };
 
 const Reload = function () {

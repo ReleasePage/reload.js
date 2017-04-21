@@ -65,6 +65,20 @@ If you want to use our default styles then also include `reload-basic.css`, this
 
 ## Customisation
 
+### Interval
+
+`reload.js` will check GitHub for new release information every 60 seconds. If you want to change this then pass an `interval` argument:
+
+```js
+reload.options({
+  interval: 10000 // 10 seconds
+});
+```
+
+Note; Requests to GitHub's API are [rate limited per IP address][8], allowing 60 requests per hour. Bear this in mind when setting the interval.
+
+If you need a higher rate-limit, take a look at using `reload.js` as a [ReleasePage Integration](#releasepage-integration).
+
 ### Messages
 By default `reload.js` will show a popup when your version changes with a short message. You can customise the messages that will be displayed using the `options` function.
 
@@ -207,3 +221,4 @@ reload.options({
 [5]: https://github.com/npm/node-semver
 [6]: https://github.com/npm/node-semver#comparison
 [7]: https://help.releasepage.co/api
+[8]: https://developer.github.com/v3/#rate-limiting
