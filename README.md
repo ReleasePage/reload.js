@@ -215,6 +215,11 @@ reload.options({
 
 ```
 
+# Stay in touch
+Follow us on Twitter: [@ReleasePage][9]
+
+Email us: hi@releasepage.co
+
 [1]: http://codepen.io/Jivings/pen/yMmLde
 [3]: https://releasepage.co
 [4]: https://github.com/ReleasePage/version.js
@@ -222,3 +227,4 @@ reload.options({
 [6]: https://github.com/npm/node-semver#comparison
 [7]: https://help.releasepage.co/api
 [8]: https://developer.github.com/v3/#rate-limiting
+[9]: https://twitter.com/ReleasePage
