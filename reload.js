@@ -1,5 +1,4 @@
 const semver = require('semver');
-const defaults = require('lodash.defaults');
 
 const diffDefaults = {
   autorefresh: -1, // do not autorefresh
@@ -21,7 +20,7 @@ const Reload = function () {
 Reload.prototype = {
   options(opts) {
     this.diffDefaults = diffDefaults;
-    this.opts = defaults(opts, globalDefaults);
+    this.opts = { ...globalDefaults, opts };
     if (this.opts.content) {
       this.diffDefaults.content = this.opts.content;
     } else if (this.opts.html) {
@@ -81,7 +80,7 @@ Reload.prototype = {
 
   render(opts = {}) {
     if (this.$el) return this;
-    const options = defaults(opts, this.diffDefaults);
+    const options = { ...this.diffDefaults, opts };
     const $el = document.createElement('div');
     this.$el = $el;
     $el.className = 'reloadjs';
